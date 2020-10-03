@@ -50,7 +50,7 @@ void setcursor(bool visible)
 	lpCursor.dwSize = 20;
 	SetConsoleCursorInfo(console, &lpCursor);
 }
-int main()
+int main1()
 {
 	char ch = ' ';
 	char direction = 's';
