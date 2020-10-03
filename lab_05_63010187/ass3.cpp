@@ -15,15 +15,23 @@ void draw_ship() {
 	printf("<-0->");
 	setcolor(0, 0);
 	printf(" ");
-
+	
 }
-void erase_ship() {
+void erase_ship() {	
 	setcolor(2, 0);
 	printf("       ");
-
+	
 }
 
+void drawBullet(int x,int y) {
+	COORD bullet = { x, y };
+	printf("*");
 
+}
+void eraseBullet(int x,int y) {
+	printf(" ");
+
+}
 void gotoxy(int x, int y)
 {
 	COORD c = { x, y };
@@ -35,15 +43,11 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(
 		GetStdHandle(STD_OUTPUT_HANDLE), cs);
 	erase_ship();
-
+	
 	COORD cw = { x, y + 1 };
 	SetConsoleCursorPosition(
 		GetStdHandle(STD_OUTPUT_HANDLE), cw);
 	erase_ship();
-
-
-
-
 
 }
 void setcursor(bool visible)
@@ -54,41 +58,38 @@ void setcursor(bool visible)
 	lpCursor.dwSize = 20;
 	SetConsoleCursorInfo(console, &lpCursor);
 }
-int main3()
+int main()
 {
 	char ch = ' ';
 	char direction = 's';
 	int x = 38, y = 20;
+	char bullet[5] = "OFF";
 	setcursor(0);
 	gotoxy(x, y);
 	do {
 		if (_kbhit()) {
 			ch = _getch();
-			if (ch == 'a' && x != 0) { direction = 'l'; }
-			if (ch == 'd' && x <= 80) { direction='r'; }
+			if (ch == 'a' && x != 0) {gotoxy(--x, y);}
+			if (ch == 'd' && x <= 80) { gotoxy(++x, y); }
 			if (ch == 'w' && y != 0) { gotoxy(x, y--); }
-			if (ch == 's' && y <= 40) { direction = 's'; }
+			if (ch == 's' && y <= 40) { gotoxy(x, y++); }
+			if (ch == ' ') { bullet[5] = "ON"; 
+							drawBullet(x,y--); }
 			fflush(stdin);
 
 		}
-		if (direction =='l'&& x >= 0) {
+	if (bullet == "ON") {
+		eraseBullet(x,y);
+		do {
+			drawBullet(x,y--);
+			Sleep(100);
+			eraseBullet(x, y--);
 
-				gotoxy(x--, y);
-				if (direction == 's') {
-					break;
-				}
-			
-		}
-		if (direction == 'r'&& x <= 80) {
-			
-				gotoxy(x++, y);
-				if (direction == 's') {
-					break;
-				}
-			}
-		
+		} while (x <= 80 && y <= 40);
+	}
 		
 		Sleep(100);
 	} while (ch != 'x');
+
 	return 0;
 }

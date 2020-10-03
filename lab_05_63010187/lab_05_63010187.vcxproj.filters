@@ -21,5 +21,8 @@
     <ClCompile Include="ass2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ass3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
